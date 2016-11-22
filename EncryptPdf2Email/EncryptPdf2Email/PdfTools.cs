@@ -24,20 +24,7 @@ namespace EncryptPdf2Email
                         PdfReader reader = new PdfReader(input);
                         PdfEncryptor.Encrypt(reader, output, PdfWriter.ENCRYPTION_AES_256, password, password, PdfWriter.ENCRYPTION_AES_256);
                     }
-                }
-                if (MainForm.Email)
-                {
-                    EmailTools et = new EmailTools(email, outputFile);
-
-                    if (MainForm.Outlook)
-                    {
-                        et.SendEmailOutlook();
-                    } else
-                    {
-                        et.SendEmailExchange();
-                    }
-                }
-             
+                }                             
             }
             catch (System.Runtime.InteropServices.COMException ex)
             {

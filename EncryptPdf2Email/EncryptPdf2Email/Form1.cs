@@ -265,6 +265,26 @@ namespace EncryptPdf2Email
                         pt.EncryptPdf(fd.FullFileName, outputLocation + fd.FileName, mfv.Password, fd.Email);
                     }
                 }
+                if (Email)
+                {
+                    if (!Encrypt)
+                    {
+                        outputLocation = fd.FullFileName;
+                    } else
+                    {
+                        outputLocation = outputLocation + fd.FileName;
+                    }
+                    EmailTools et = new EmailTools(fd.Email, outputLocation);
+
+                    if (Outlook)
+                    {
+                        et.SendEmailOutlook();
+                    }
+                    else
+                    {
+                        et.SendEmailExchange();
+                    }
+                }
                 backgroundWorker1.ReportProgress(0);
             }
             
