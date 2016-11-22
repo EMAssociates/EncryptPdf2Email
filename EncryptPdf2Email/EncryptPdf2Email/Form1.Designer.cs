@@ -54,7 +54,6 @@
             this.chk_showExistingPassword = new System.Windows.Forms.CheckBox();
             this.chk_email = new System.Windows.Forms.CheckBox();
             this.chk_saveCopy = new System.Windows.Forms.CheckBox();
-            this.chk_overwrite = new System.Windows.Forms.CheckBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -286,7 +285,7 @@
             // 
             this.chk_email.AutoSize = true;
             this.chk_email.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_email.Location = new System.Drawing.Point(272, 451);
+            this.chk_email.Location = new System.Drawing.Point(189, 451);
             this.chk_email.Name = "chk_email";
             this.chk_email.Size = new System.Drawing.Size(56, 17);
             this.chk_email.TabIndex = 24;
@@ -298,25 +297,13 @@
             // 
             this.chk_saveCopy.AutoSize = true;
             this.chk_saveCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_saveCopy.Location = new System.Drawing.Point(179, 451);
+            this.chk_saveCopy.Location = new System.Drawing.Point(98, 451);
             this.chk_saveCopy.Name = "chk_saveCopy";
             this.chk_saveCopy.Size = new System.Drawing.Size(87, 17);
             this.chk_saveCopy.TabIndex = 25;
             this.chk_saveCopy.Text = "Save Copy";
             this.chk_saveCopy.UseVisualStyleBackColor = true;
             this.chk_saveCopy.CheckedChanged += new System.EventHandler(this.chk_saveCopy_CheckedChanged);
-            // 
-            // chk_overwrite
-            // 
-            this.chk_overwrite.AutoSize = true;
-            this.chk_overwrite.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_overwrite.Location = new System.Drawing.Point(93, 451);
-            this.chk_overwrite.Name = "chk_overwrite";
-            this.chk_overwrite.Size = new System.Drawing.Size(80, 17);
-            this.chk_overwrite.TabIndex = 26;
-            this.chk_overwrite.Text = "Overwrite";
-            this.chk_overwrite.UseVisualStyleBackColor = true;
-            this.chk_overwrite.CheckedChanged += new System.EventHandler(this.chk_overwrite_CheckedChanged);
             // 
             // progressBar1
             // 
@@ -360,7 +347,7 @@
             // exchangeToolStripMenuItem
             // 
             this.exchangeToolStripMenuItem.Name = "exchangeToolStripMenuItem";
-            this.exchangeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exchangeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.exchangeToolStripMenuItem.Text = "Exchange";
             this.exchangeToolStripMenuItem.Click += new System.EventHandler(this.exchangeToolStripMenuItem_Click);
             // 
@@ -368,7 +355,7 @@
             // 
             this.outlookToolStripMenuItem.BackColor = System.Drawing.Color.Coral;
             this.outlookToolStripMenuItem.Name = "outlookToolStripMenuItem";
-            this.outlookToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.outlookToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.outlookToolStripMenuItem.Text = "Outlook";
             this.outlookToolStripMenuItem.Click += new System.EventHandler(this.outlookToolStripMenuItem_Click);
             // 
@@ -378,7 +365,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 695);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.chk_overwrite);
             this.Controls.Add(this.chk_saveCopy);
             this.Controls.Add(this.chk_email);
             this.Controls.Add(this.chk_showExistingPassword);
@@ -442,7 +428,6 @@
         private System.Windows.Forms.CheckBox chk_showExistingPassword;
         private System.Windows.Forms.CheckBox chk_email;
         private System.Windows.Forms.CheckBox chk_saveCopy;
-        private System.Windows.Forms.CheckBox chk_overwrite;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.TextBox txt_directorsFilePath;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;

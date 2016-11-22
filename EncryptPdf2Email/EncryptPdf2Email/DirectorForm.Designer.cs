@@ -67,6 +67,7 @@
             // 
             // DirectorForm
             // 
+            this.AcceptButton = this.btn_ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(447, 492);
@@ -74,7 +75,8 @@
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.gv_directors);
             this.Name = "DirectorForm";
-            this.Text = "DirectorForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Site Code and Email Form";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DirectorForm_FormClosed);
             this.Load += new System.EventHandler(this.DirectorForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gv_directors)).EndInit();

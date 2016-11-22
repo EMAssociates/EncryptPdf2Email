@@ -21,13 +21,19 @@ namespace EncryptPdf2Email
 
         public void SendEmailOutlook()
         {
-            Outlook.Application app = new Outlook.Application();
-            Outlook.MailItem mailItem = app.CreateItem(Outlook.OlItemType.olMailItem);
-            mailItem.Recipients.Add(Recipients);
-            mailItem.Attachments.Add(Attachment);
-            mailItem.Subject = Subject;
-            mailItem.Body = Body;
-            mailItem.Send();
+            try
+            {
+                Outlook.Application app = new Outlook.Application();
+                Outlook.MailItem mailItem = app.CreateItem(Outlook.OlItemType.olMailItem);
+                mailItem.Recipients.Add(Recipients);
+                mailItem.Attachments.Add(Attachment);
+                mailItem.Subject = Subject;
+                mailItem.Body = Body;
+                mailItem.Send();
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\r\n\r\n" + ex.StackTrace, "Error Sending Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 

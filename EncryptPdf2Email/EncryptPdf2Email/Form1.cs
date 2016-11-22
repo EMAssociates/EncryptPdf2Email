@@ -193,24 +193,13 @@ namespace EncryptPdf2Email
             }
         }
 
-        private void chk_overwrite_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chk_overwrite.Checked)
-            {
-                Overwrite = true;
-            } else
-            {
-                Overwrite = false;
-            }
-        }
-
         private void btn_execute_Click(object sender, EventArgs e)
         {
             MainFormValues mfv = new MainFormValues(txt_existingPassword.Text, txt_password.Text, txt_targetFolder.Text, txt_outputFolderPath.Text);
 
-            if (mfv.TargetPath == mfv.SaveAsPath && Overwrite == false)
+            if (mfv.TargetPath == mfv.SaveAsPath)
             {
-                MessageBox.Show("You are attempting to overwrite the original files. \n\n You must fill the Overwrite checkbox.",
+                MessageBox.Show("You are attempting to overwrite the original files.",
                     "Error Executing Command", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

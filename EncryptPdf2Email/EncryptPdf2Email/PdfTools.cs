@@ -1,11 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Outlook = Microsoft.Office.Interop.Outlook;
 using iTextSharp.text.pdf;
 using iTextSharp.text.exceptions;
 
@@ -36,7 +32,7 @@ namespace EncryptPdf2Email
                 MessageBox.Show("Error Message: " + ex.Message + Environment.NewLine + "Inner Exception: "
                     + ex.InnerException + Environment.NewLine + "Stack Trace: " + ex.StackTrace);
 
-                System.IO.File.Delete(outputFile);
+                File.Delete(outputFile);
             }
         }
 
