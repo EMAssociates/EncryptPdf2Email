@@ -211,7 +211,7 @@ namespace EncryptPdf2Email
             if (mfv.TargetPath == mfv.SaveAsPath && Overwrite == false)
             {
                 MessageBox.Show("You are attempting to overwrite the original files. \n\n You must fill the Overwrite checkbox.",
-                    "Error Loading Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    "Error Executing Command", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -242,7 +242,7 @@ namespace EncryptPdf2Email
                     outputLocation = mfv.SaveAsPath;
                 } else
                 {
-                    MessageBox.Show("Output Folder does not exist.", "Error Loading Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Output Folder does not exist.", "Error Executing Command", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }                
             } else
@@ -254,7 +254,7 @@ namespace EncryptPdf2Email
             {
                 if (Encrypt)
                 {
-                    if (pt.TestEncryption(fd.FullFileName))
+                    if (pt.IsEncrypted(fd.FullFileName))
                     {
                         string newFile = pt.DecryptPdf(fd.FullFileName, tempFolder + fd.FileName, mfv.ExistingPassword);
 

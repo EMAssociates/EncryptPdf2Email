@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Outlook = Microsoft.Office.Interop.Outlook;
+using Microsoft.Exchange.WebServices.Data;
+using System.Windows.Forms;
+using System.DirectoryServices.AccountManagement;
 
 namespace EncryptPdf2Email
 {
@@ -31,10 +30,31 @@ namespace EncryptPdf2Email
             mailItem.Send();
         }
 
+
         public void SendEmailExchange()
         {
-            return;
+            string userName = UserPrincipal.Current.EmailAddress;
+            try
+            {
+                ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
+
+                service.AutodiscoverUrl(userName);
+
+                EmailMessage message = new EmailMessage(service);
+
+                // Set properties on the email message.
+                message.Subject = Subject;
+                message.Body = Body;
+                message.ToRecipients.Add(Recipients);
+                message.Attachments.AddFileAttachment(Attachment);
+
+                // Send the email message
+                message.Send();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\r\n\r\n" + ex.StackTrace, "Error Loading Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
-
 }

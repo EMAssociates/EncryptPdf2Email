@@ -64,7 +64,7 @@ namespace EncryptPdf2Email
         }
     
 
-        public bool TestEncryption(string file)
+        public bool IsEncrypted(string file)
         {
             try
             {
