@@ -66,12 +66,12 @@ namespace EncryptPdf2Email
             if(b)
             {
                 MainForm.proceedFromDirectorForm = true;
-                MainForm.DD = directorData.ToList<DirectorData>();
+                MainForm.directorData = directorData.ToList<DirectorData>();
                 this.Close();
             } else
             {
                 MainForm.proceedFromDirectorForm = false;
-                MainForm.DD.Clear();
+                MainForm.directorData.Clear();
                 directorData.Clear();
                 this.Close();
             }

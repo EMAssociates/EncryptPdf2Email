@@ -11,7 +11,7 @@ namespace EncryptPdf2Email
     {
         public static BindingList<FileData> fileData = new BindingList<FileData>();
         public static bool proceedFromDirectorForm;
-        public static List<DirectorData> DD = new List<DirectorData>();
+        public static List<DirectorData> directorData = new List<DirectorData>();
 
         //Form checkbox values
         public static bool Encrypt;
@@ -87,7 +87,7 @@ namespace EncryptPdf2Email
                     fullName = fi.FullName;
                     fileName = fi.Name;
 
-                    foreach (DirectorData item in DD)
+                    foreach (DirectorData item in directorData)
                     {
                         if (item.Site == site)
                         {
@@ -241,6 +241,8 @@ namespace EncryptPdf2Email
 
             foreach (FileData fd in fileData)
             {
+                outputLocation = tempFolder;
+
                 if (Encrypt)
                 {
                     if (pt.IsEncrypted(fd.FullFileName))
@@ -273,7 +275,7 @@ namespace EncryptPdf2Email
                     {
                         et.SendEmailExchange();
                     }
-                }
+                }             
                 backgroundWorker1.ReportProgress(0);
             }
             
