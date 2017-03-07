@@ -11,6 +11,7 @@ namespace EncryptPdf2Email
     {
         private string _fileName;
         private string _fullfileName;
+        private string _newfileName;
         private string _email;
         private string _site;
 
@@ -32,6 +33,16 @@ namespace EncryptPdf2Email
             {
                 _fullfileName = value;
                 this.NotifyPropertyChanged("FullFileName");
+            }
+        }
+        [Browsable(false)]
+        public string NewFileName
+        {
+            get { return _newfileName; }
+            set
+            {
+                _newfileName = value;
+                this.NotifyPropertyChanged("NewFileName");
             }
         }
         [ReadOnly(true)]

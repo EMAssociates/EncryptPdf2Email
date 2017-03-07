@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using Microsoft.Exchange.WebServices.Data;
 using System.Windows.Forms;
@@ -9,14 +10,20 @@ namespace EncryptPdf2Email
     class EmailTools
     {
         public string Recipients { get; set; }
-        public string Attachment { get; set; }
+        public List<string> Attachment { get; set; }
         public static string Subject { get; set; }
         public static string Body { get; set; }
 
-        public EmailTools(string recipients, string attachment)
+        public EmailTools(string recipients, List<string> attachment)
         {
             Recipients = recipients;
             Attachment = attachment;
+        }
+
+        public EmailTools(string recipients, string attachment)
+        {
+            Recipients = recipients;                
+            Attachment.Add(attachment);            
         }
 
         public void SendEmailOutlook()
@@ -52,7 +59,11 @@ namespace EncryptPdf2Email
                 message.Subject = Subject;
                 message.Body = Body;
                 message.ToRecipients.Add(Recipients);
-                message.Attachments.AddFileAttachment(Attachment);
+
+                foreach (string item in Attachment)
+                {
+                    message.Attachments.AddFileAttachment(item);
+                }
 
                 // Send the email message
                 message.Send();

@@ -61,6 +61,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exchangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outlookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chk_groupby = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.DataGrid)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -359,11 +360,25 @@
             this.outlookToolStripMenuItem.Text = "Outlook";
             this.outlookToolStripMenuItem.Click += new System.EventHandler(this.outlookToolStripMenuItem_Click);
             // 
+            // chk_groupby
+            // 
+            this.chk_groupby.AutoSize = true;
+            this.chk_groupby.Enabled = false;
+            this.chk_groupby.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk_groupby.Location = new System.Drawing.Point(251, 451);
+            this.chk_groupby.Name = "chk_groupby";
+            this.chk_groupby.Size = new System.Drawing.Size(74, 17);
+            this.chk_groupby.TabIndex = 29;
+            this.chk_groupby.Text = "GroupBy";
+            this.chk_groupby.UseVisualStyleBackColor = true;
+            this.chk_groupby.CheckedChanged += new System.EventHandler(this.chk_groupby_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 695);
+            this.Controls.Add(this.chk_groupby);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.chk_saveCopy);
             this.Controls.Add(this.chk_email);
@@ -436,6 +451,7 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exchangeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem outlookToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chk_groupby;
     }
 }
 

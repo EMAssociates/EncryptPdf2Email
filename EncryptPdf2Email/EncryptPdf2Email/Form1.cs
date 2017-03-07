@@ -12,10 +12,12 @@ namespace EncryptPdf2Email
         public static BindingList<FileData> fileData = new BindingList<FileData>();
         public static bool proceedFromDirectorForm;
         public static List<DirectorData> directorData = new List<DirectorData>();
+        public static List<string> emailData = new List<string>();
 
         //Form checkbox values
         public static bool Encrypt;
         public static bool Email;
+        public static bool GroupBy;
         public static bool SaveCopy;
         public static bool Overwrite;
         public static bool Outlook = true;
@@ -145,11 +147,15 @@ namespace EncryptPdf2Email
         {
             if (chk_encrypt.Checked)
             {
+                AddNewFileName();
+
                 txt_existingPassword.Enabled = true;
                 txt_password.Enabled = true;
                 Encrypt = true;
             } else
             {
+                AddNewFileName(1);
+
                 txt_existingPassword.Enabled = false;
                 txt_password.Enabled = false;
                 Encrypt = false;
@@ -184,11 +190,15 @@ namespace EncryptPdf2Email
             if (chk_email.Checked)
             {
                 EmailForm ef = new EmailForm();
-                ef.ShowDialog();    
+                ef.ShowDialog();
+
+                chk_groupby.Enabled = true;
 
                 Email = true;
             } else
             {
+                chk_groupby.Checked = false;
+                chk_groupby.Enabled = false;
                 Email = false;
             }
         }
@@ -219,6 +229,9 @@ namespace EncryptPdf2Email
             PdfTools pt = new PdfTools();
 
             string outputLocation;
+            string outputFinal;
+            string tempFinal;
+            int count = 0;
 
             if (MainForm.SaveCopy)
             {
@@ -241,31 +254,41 @@ namespace EncryptPdf2Email
 
             foreach (FileData fd in fileData)
             {
-                outputLocation = tempFolder;
+                count += 1;
+                outputFinal = outputLocation + fd.FileName;
+                tempFinal = tempFolder + fd.FileName;
 
                 if (Encrypt)
                 {
                     if (pt.IsEncrypted(fd.FullFileName))
                     {
-                        string newFile = pt.DecryptPdf(fd.FullFileName, tempFolder + fd.FileName, mfv.ExistingPassword);
+                        string newFile = pt.DecryptPdf(fd.FullFileName, tempFinal, mfv.ExistingPassword);
 
-                        pt.EncryptPdf(newFile, outputLocation + fd.FileName, mfv.Password, fd.Email);
+                        pt.EncryptPdf(newFile, outputFinal, mfv.Password, fd.Email);
 
                     } else
                     {
-                        pt.EncryptPdf(fd.FullFileName, outputLocation + fd.FileName, mfv.Password, fd.Email);
+                        pt.EncryptPdf(fd.FullFileName, outputFinal, mfv.Password, fd.Email);
                     }
                 }
+
+                if (GroupBy)
+
+                {
+
+                }
+
                 if (Email)
                 {
                     if (!Encrypt)
                     {
-                        outputLocation = fd.FullFileName;
-                    } else
-                    {
-                        outputLocation = outputLocation + fd.FileName;
+                        outputFinal = fd.FullFileName;
                     }
-                    EmailTools et = new EmailTools(fd.Email, outputLocation);
+                    else
+                    {
+                        outputFinal = outputLocation + fd.FileName;
+                    }
+                    EmailTools et = new EmailTools(fd.Email, outputFinal);
 
                     if (Outlook)
                     {
@@ -275,6 +298,8 @@ namespace EncryptPdf2Email
                     {
                         et.SendEmailExchange();
                     }
+                    
+                                        
                 }             
                 backgroundWorker1.ReportProgress(0);
             }
@@ -303,6 +328,34 @@ namespace EncryptPdf2Email
             Outlook = true;
             outlookToolStripMenuItem.BackColor = Color.Coral;
             exchangeToolStripMenuItem.BackColor = SystemColors.Menu;
+        }
+
+        private void chk_groupby_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_groupby.Checked)
+            {
+                GroupBy = true;
+            } else
+            {
+                GroupBy = false;
+            }
+        }
+
+        private static void AddNewFileName()
+        {
+            foreach (FileData fd in fileData)
+            {
+                int lngth = fd.FileName.Length;
+                fd.NewFileName = fd.FileName.Substring(0, lngth - 4) + @"_encrypted.pdf";
+            }
+        }
+        private static void AddNewFileName(int one)
+        {
+            foreach (FileData fd in fileData)
+            {
+                int lngth = fd.FileName.Length;
+                fd.NewFileName = fd.FileName.Substring(0, lngth - 14) + @".pdf";
+            }
         }
     }
 }
