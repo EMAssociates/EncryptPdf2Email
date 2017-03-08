@@ -231,8 +231,6 @@ namespace EncryptPdf2Email
             string outputLocation;
             string outputFinal;
             string tempFinal;
-            string lastSite = string.Empty;
-            string nextSite = string.Empty;
             int count = 0;
 
             if (MainForm.SaveCopy)
