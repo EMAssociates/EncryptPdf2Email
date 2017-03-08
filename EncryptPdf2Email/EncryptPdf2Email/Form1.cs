@@ -231,6 +231,8 @@ namespace EncryptPdf2Email
             string outputLocation;
             string outputFinal;
             string tempFinal;
+            string lastSite = string.Empty;
+            string nextSite = string.Empty;
             int count = 0;
 
             if (MainForm.SaveCopy)
@@ -254,7 +256,7 @@ namespace EncryptPdf2Email
 
             foreach (FileData fd in fileData)
             {
-                count += 1;
+                count += 1;               
                 outputFinal = outputLocation + fd.FileName;
                 tempFinal = tempFolder + fd.FileName;
 
@@ -272,34 +274,212 @@ namespace EncryptPdf2Email
                     }
                 }
 
-                if (GroupBy)
-
-                {
-
-                }
-
                 if (Email)
                 {
-                    if (!Encrypt)
+                    if (GroupBy)
                     {
-                        outputFinal = fd.FullFileName;
-                    }
-                    else
-                    {
-                        outputFinal = outputLocation + fd.FileName;
-                    }
-                    EmailTools et = new EmailTools(fd.Email, outputFinal);
+                        if (count <= 1)
+                        {
+                            if (!Encrypt)
+                            {
+                                emailData.Add(fd.FullFileName);
 
-                    if (Outlook)
-                    {
-                        et.SendEmailOutlook();
+                                if (count < fileData.Count)
+                                {
+                                    if (fd.Site == fileData[count].Site)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        EmailTools et = new EmailTools(fd.Email, emailData);
+
+                                        if (Outlook)
+                                        {
+                                            et.SendEmailOutlook();
+                                        }
+                                        else
+                                        {
+                                            et.SendEmailExchange();
+                                        }
+
+                                        emailData.Clear();
+                                    }
+                                }
+                                else
+                                {
+                                    EmailTools et = new EmailTools(fd.Email, emailData);
+
+                                    if (Outlook)
+                                    {
+                                        et.SendEmailOutlook();
+                                    }
+                                    else
+                                    {
+                                        et.SendEmailExchange();
+                                    }
+
+                                    emailData.Clear();
+                                }
+                                
+                            }
+                            else
+                            {
+                                outputFinal = outputLocation + fd.FileName;
+                                emailData.Add(outputFinal);
+
+                                if (count < fileData.Count)
+                                {
+                                    if (fd.Site == fileData[count].Site)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        EmailTools et = new EmailTools(fd.Email, emailData);
+
+                                        if (Outlook)
+                                        {
+                                            et.SendEmailOutlook();
+                                        }
+                                        else
+                                        {
+                                            et.SendEmailExchange();
+                                        }
+
+                                        emailData.Clear();
+                                    }
+                                }
+                                else
+                                {
+                                    EmailTools et = new EmailTools(fd.Email, emailData);
+
+                                    if (Outlook)
+                                    {
+                                        et.SendEmailOutlook();
+                                    }
+                                    else
+                                    {
+                                        et.SendEmailExchange();
+                                    }
+
+                                    emailData.Clear();
+                                }
+                            }
+                        }
+                        else if (count > 1)
+                        {
+                            if (!Encrypt)
+                            {
+                                emailData.Add(fd.FullFileName);
+
+                                if (count < fileData.Count)
+                                {
+                                    if (fd.Site == fileData[count].Site)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        EmailTools et = new EmailTools(fd.Email, emailData);
+
+                                        if (Outlook)
+                                        {
+                                            et.SendEmailOutlook();
+                                        }
+                                        else
+                                        {
+                                            et.SendEmailExchange();
+                                        }
+
+                                        emailData.Clear();
+                                    }
+                                }
+                                else
+                                {
+                                    EmailTools et = new EmailTools(fd.Email, emailData);
+
+                                    if (Outlook)
+                                    {
+                                        et.SendEmailOutlook();
+                                    }
+                                    else
+                                    {
+                                        et.SendEmailExchange();
+                                    }
+
+                                    emailData.Clear();
+                                }
+
+                            }
+                            else
+                            {
+                                outputFinal = outputLocation + fd.FileName;
+                                emailData.Add(outputFinal);
+
+                                if (count < fileData.Count)
+                                {
+                                    if (fd.Site == fileData[count].Site)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        EmailTools et = new EmailTools(fd.Email, emailData);
+
+                                        if (Outlook)
+                                        {
+                                            et.SendEmailOutlook();
+                                        }
+                                        else
+                                        {
+                                            et.SendEmailExchange();
+                                        }
+
+                                        emailData.Clear();
+                                    }
+                                }
+                                else
+                                {
+                                    EmailTools et = new EmailTools(fd.Email, emailData);
+
+                                    if (Outlook)
+                                    {
+                                        et.SendEmailOutlook();
+                                    }
+                                    else
+                                    {
+                                        et.SendEmailExchange();
+                                    }
+
+                                    emailData.Clear();
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        et.SendEmailExchange();
-                    }
-                    
-                                        
+                        if (!Encrypt)
+                        {
+                            emailData.Add(fd.FullFileName);
+                        }
+                        else
+                        {
+                            outputFinal = outputLocation + fd.FileName;
+                            emailData.Add(outputFinal);
+                        }
+                        EmailTools et = new EmailTools(fd.Email, emailData);
+
+                        if (Outlook)
+                        {
+                            et.SendEmailOutlook();
+                        }
+                        else
+                        {
+                            et.SendEmailExchange();
+                        }
+                    }                    
+                                                         
                 }             
                 backgroundWorker1.ReportProgress(0);
             }
