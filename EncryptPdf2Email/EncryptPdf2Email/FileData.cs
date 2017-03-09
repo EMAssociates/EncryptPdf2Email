@@ -13,6 +13,7 @@ namespace EncryptPdf2Email
         private string _fullfileName;
         private string _newfileName;
         private string _email;
+        private string _finalLocationforEmail;
         private string _site;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -79,6 +80,17 @@ namespace EncryptPdf2Email
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(p));
+        }
+
+        [Browsable(false)]
+        public string FinalLocationForEmail
+        {
+            get { return _finalLocationforEmail; }
+            set
+            {
+                _finalLocationforEmail = value;
+                this.NotifyPropertyChanged("FinalLocationForEmail");
+            }
         }
     }
 }

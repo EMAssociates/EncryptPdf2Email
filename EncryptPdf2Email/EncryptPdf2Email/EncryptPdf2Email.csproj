@@ -99,7 +99,6 @@
     <Compile Include="DirectorForm.Designer.cs">
       <DependentUpon>DirectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EmailData.cs" />
     <Compile Include="EmailForm.cs">
       <SubType>Form</SubType>
     </Compile>

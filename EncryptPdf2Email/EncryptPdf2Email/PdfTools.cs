@@ -9,7 +9,7 @@ namespace EncryptPdf2Email
 {
     class PdfTools
     {       
-        public void EncryptPdf(string inputFile, string outputFile, string password, string email)
+        public void EncryptPdf(string inputFile, string outputFile, string password)
         {
             try
             {

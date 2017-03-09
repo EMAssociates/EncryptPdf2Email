@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -9,10 +10,12 @@ namespace EncryptPdf2Email
 {
     public partial class MainForm : Form
     {
+        //TODO turn Encrypt checkbox to radio button and have user choose explicitly b/w encryption and decryption
         public static BindingList<FileData> fileData = new BindingList<FileData>();
         public static bool proceedFromDirectorForm;
         public static List<DirectorData> directorData = new List<DirectorData>();
-        public static List<string> emailData = new List<string>();
+        public static List<string> attachments = new List<string>();
+      
 
         //Form checkbox values
         public static bool Encrypt;
@@ -207,13 +210,15 @@ namespace EncryptPdf2Email
         {
             MainFormValues mfv = new MainFormValues(txt_existingPassword.Text, txt_password.Text, txt_targetFolder.Text, txt_outputFolderPath.Text);
 
-            if (mfv.TargetPath == mfv.SaveAsPath)
+            //TODO this check may not be necessary.  Overwrite shouldn't be an issue
+            /*if (mfv.TargetPath == mfv.SaveAsPath)
             {
                 MessageBox.Show("You are attempting to overwrite the original files.",
                     "Error Executing Command", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
+            }*/
 
+            //TODO this will not work with grouping emails
             progressBar1.Maximum = fileData.Count;
             progressBar1.Minimum = 0;
             progressBar1.Step = 1;
@@ -228,245 +233,74 @@ namespace EncryptPdf2Email
 
             PdfTools pt = new PdfTools();
 
-            string outputLocation;
-            string outputFinal;
-            string tempFinal;
-            int count = 0;
+            string encryptedFile = string.Empty;
 
-            if (MainForm.SaveCopy)
+            //perform encryption and save copy if indicated on main form.
+            if (Encrypt)
             {
-                if (Directory.Exists(mfv.SaveAsPath))
+                foreach (FileData fd in fileData)
                 {
-                    if (!mfv.SaveAsPath.EndsWith(@"\"))
+                    try
                     {
-                        mfv.SaveAsPath = mfv.SaveAsPath + @"\";
-                    }
-                    outputLocation = mfv.SaveAsPath;
-                } else
-                {
-                    MessageBox.Show("Output Folder does not exist.", "Error Executing Command", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }                
-            } else
-            {
-                outputLocation = tempFolder;
-            }
+                        string tempFile = tempFolder + fd.FileName;                        
 
-            foreach (FileData fd in fileData)
-            {
-                count += 1;               
-                outputFinal = outputLocation + fd.FileName;
-                tempFinal = tempFolder + fd.FileName;
-
-                if (Encrypt)
-                {
-                    if (pt.IsEncrypted(fd.FullFileName))
-                    {
-                        string newFile = pt.DecryptPdf(fd.FullFileName, tempFinal, mfv.ExistingPassword);
-
-                        pt.EncryptPdf(newFile, outputFinal, mfv.Password, fd.Email);
-
-                    } else
-                    {
-                        pt.EncryptPdf(fd.FullFileName, outputFinal, mfv.Password, fd.Email);
-                    }
-                }
-
-                if (Email)
-                {
-                    if (GroupBy)
-                    {
-                        if (count <= 1)
+                        if (pt.IsEncrypted(fd.FullFileName))
                         {
-                            if (!Encrypt)
+                            string decryptedFile = pt.DecryptPdf(fd.FullFileName, tempFile, mfv.ExistingPassword);
+
+                            if (SaveCopy)
                             {
-                                emailData.Add(fd.FullFileName);
-
-                                if (count < fileData.Count)
-                                {
-                                    if (fd.Site == fileData[count].Site)
-                                    {
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        EmailTools et = new EmailTools(fd.Email, emailData);
-
-                                        if (Outlook)
-                                        {
-                                            et.SendEmailOutlook();
-                                        }
-                                        else
-                                        {
-                                            et.SendEmailExchange();
-                                        }
-
-                                        emailData.Clear();
-                                    }
-                                }
-                                else
-                                {
-                                    EmailTools et = new EmailTools(fd.Email, emailData);
-
-                                    if (Outlook)
-                                    {
-                                        et.SendEmailOutlook();
-                                    }
-                                    else
-                                    {
-                                        et.SendEmailExchange();
-                                    }
-
-                                    emailData.Clear();
-                                }
-                                
+                                encryptedFile = mfv.SaveAsPath + @"\" + fd.NewFileName;
+                                pt.EncryptPdf(decryptedFile, encryptedFile, mfv.Password);
                             }
                             else
                             {
-                                outputFinal = outputLocation + fd.FileName;
-                                emailData.Add(outputFinal);
-
-                                if (count < fileData.Count)
-                                {
-                                    if (fd.Site == fileData[count].Site)
-                                    {
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        EmailTools et = new EmailTools(fd.Email, emailData);
-
-                                        if (Outlook)
-                                        {
-                                            et.SendEmailOutlook();
-                                        }
-                                        else
-                                        {
-                                            et.SendEmailExchange();
-                                        }
-
-                                        emailData.Clear();
-                                    }
-                                }
-                                else
-                                {
-                                    EmailTools et = new EmailTools(fd.Email, emailData);
-
-                                    if (Outlook)
-                                    {
-                                        et.SendEmailOutlook();
-                                    }
-                                    else
-                                    {
-                                        et.SendEmailExchange();
-                                    }
-
-                                    emailData.Clear();
-                                }
+                                encryptedFile = mfv.TargetPath + @"\" + fd.NewFileName;
+                                pt.EncryptPdf(decryptedFile, encryptedFile, mfv.Password);
                             }
-                        }
-                        else if (count > 1)
-                        {
-                            if (!Encrypt)
-                            {
-                                emailData.Add(fd.FullFileName);
-
-                                if (count < fileData.Count)
-                                {
-                                    if (fd.Site == fileData[count].Site)
-                                    {
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        EmailTools et = new EmailTools(fd.Email, emailData);
-
-                                        if (Outlook)
-                                        {
-                                            et.SendEmailOutlook();
-                                        }
-                                        else
-                                        {
-                                            et.SendEmailExchange();
-                                        }
-
-                                        emailData.Clear();
-                                    }
-                                }
-                                else
-                                {
-                                    EmailTools et = new EmailTools(fd.Email, emailData);
-
-                                    if (Outlook)
-                                    {
-                                        et.SendEmailOutlook();
-                                    }
-                                    else
-                                    {
-                                        et.SendEmailExchange();
-                                    }
-
-                                    emailData.Clear();
-                                }
-
-                            }
-                            else
-                            {
-                                outputFinal = outputLocation + fd.FileName;
-                                emailData.Add(outputFinal);
-
-                                if (count < fileData.Count)
-                                {
-                                    if (fd.Site == fileData[count].Site)
-                                    {
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        EmailTools et = new EmailTools(fd.Email, emailData);
-
-                                        if (Outlook)
-                                        {
-                                            et.SendEmailOutlook();
-                                        }
-                                        else
-                                        {
-                                            et.SendEmailExchange();
-                                        }
-
-                                        emailData.Clear();
-                                    }
-                                }
-                                else
-                                {
-                                    EmailTools et = new EmailTools(fd.Email, emailData);
-
-                                    if (Outlook)
-                                    {
-                                        et.SendEmailOutlook();
-                                    }
-                                    else
-                                    {
-                                        et.SendEmailExchange();
-                                    }
-
-                                    emailData.Clear();
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (!Encrypt)
-                        {
-                            emailData.Add(fd.FullFileName);
                         }
                         else
                         {
-                            outputFinal = outputLocation + fd.FileName;
-                            emailData.Add(outputFinal);
+                            if (SaveCopy)
+                            {
+                                encryptedFile = mfv.SaveAsPath + @"\" + fd.NewFileName;
+                                pt.EncryptPdf(fd.FullFileName, encryptedFile, mfv.Password);
+                            }
+                            else
+                            {
+                                encryptedFile = mfv.TargetPath + @"\" + fd.NewFileName;
+                                pt.EncryptPdf(fd.FullFileName, encryptedFile, mfv.Password);
+                            }                            
                         }
-                        EmailTools et = new EmailTools(fd.Email, emailData);
+
+                        fd.FinalLocationForEmail = encryptedFile;
+
+                    }catch (Exception)
+                    {
+                        //TODO indicate something went wrong.
+                    }
+
+                }
+            }
+            //TODO this is where Decrpyt only code would go.  Possilby an HR need at some point.
+
+            //send email of attachment and group together if toggled.
+            if (Email)
+            {
+                if (GroupBy)
+                {
+                    foreach (DirectorData dd in directorData)
+                    {
+                        attachments.Clear();
+
+                        foreach (FileData fd in fileData)
+                        {
+                            if (fd.Site == dd.Site)
+                            {
+                                attachments.Add(fd.FinalLocationForEmail);
+                            }
+                        }
+                        EmailTools et = new EmailTools(dd.Email, attachments);
 
                         if (Outlook)
                         {
@@ -476,12 +310,25 @@ namespace EncryptPdf2Email
                         {
                             et.SendEmailExchange();
                         }
-                    }                    
-                                                         
-                }             
-                backgroundWorker1.ReportProgress(0);
+                    }
+                }
+                else
+                {
+                    foreach (FileData fd in fileData)
+                    {
+                        EmailTools et = new EmailTools(fd.Email, fd.FinalLocationForEmail);
+
+                        if (Outlook)
+                        {
+                            et.SendEmailOutlook();
+                        }
+                        else
+                        {
+                            et.SendEmailExchange();
+                        }
+                    }
+                }
             }
-            
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -525,6 +372,7 @@ namespace EncryptPdf2Email
             {
                 int lngth = fd.FileName.Length;
                 fd.NewFileName = fd.FileName.Substring(0, lngth - 4) + @"_encrypted.pdf";
+                
             }
         }
         private static void AddNewFileName(int one)

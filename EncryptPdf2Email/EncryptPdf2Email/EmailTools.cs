@@ -26,6 +26,7 @@ namespace EncryptPdf2Email
             Attachment.Add(attachment);            
         }
 
+        //TODO catch should indicate back to UI that email failed
         public void SendEmailOutlook()
         {
             try
@@ -33,10 +34,12 @@ namespace EncryptPdf2Email
                 Outlook.Application app = new Outlook.Application();
                 Outlook.MailItem mailItem = app.CreateItem(Outlook.OlItemType.olMailItem);
                 mailItem.Recipients.Add(Recipients);
+
                 foreach (string item in Attachment)
                 {
                     mailItem.Attachments.Add(item);
                 }
+
                 mailItem.Subject = Subject;
                 mailItem.Body = Body;
                 mailItem.Send();
