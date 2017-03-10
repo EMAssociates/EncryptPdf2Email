@@ -210,14 +210,6 @@ namespace EncryptPdf2Email
         {
             MainFormValues mfv = new MainFormValues(txt_existingPassword.Text, txt_password.Text, txt_targetFolder.Text, txt_outputFolderPath.Text);
 
-            //TODO this check may not be necessary.  Overwrite shouldn't be an issue
-            /*if (mfv.TargetPath == mfv.SaveAsPath)
-            {
-                MessageBox.Show("You are attempting to overwrite the original files.",
-                    "Error Executing Command", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }*/
-
             //TODO this will not work with grouping emails
             progressBar1.Maximum = fileData.Count;
             progressBar1.Minimum = 0;
@@ -300,15 +292,19 @@ namespace EncryptPdf2Email
                                 attachments.Add(fd.FinalLocationForEmail);
                             }
                         }
-                        EmailTools et = new EmailTools(dd.Email, attachments);
 
-                        if (Outlook)
+                        if (attachments.Count > 0)
                         {
-                            et.SendEmailOutlook();
-                        }
-                        else
-                        {
-                            et.SendEmailExchange();
+                            EmailTools et = new EmailTools(dd.Email, attachments);
+
+                            if (Outlook)
+                            {
+                                et.SendEmailOutlook();
+                            }
+                            else
+                            {
+                                et.SendEmailExchange();
+                            }
                         }
                     }
                 }
