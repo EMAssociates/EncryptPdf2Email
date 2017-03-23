@@ -196,6 +196,7 @@ namespace EncryptPdf2Email
                 ef.ShowDialog();
 
                 chk_groupby.Enabled = true;
+                chk_groupby.Checked = true;
 
                 Email = true;
             } else

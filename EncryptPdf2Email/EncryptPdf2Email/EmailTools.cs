@@ -11,6 +11,7 @@ namespace EncryptPdf2Email
     {
         public string Recipients { get; set; }
         public List<string> Attachment { get; set; }
+        public string SingleAttachment { get; set; }
         public static string Subject { get; set; }
         public static string Body { get; set; }
 
@@ -22,8 +23,8 @@ namespace EncryptPdf2Email
 
         public EmailTools(string recipients, string attachment)
         {
-            Recipients = recipients;                
-            Attachment.Add(attachment);            
+            Recipients = recipients;
+            SingleAttachment = attachment;           
         }
 
         //TODO catch should indicate back to UI that email failed
@@ -34,12 +35,17 @@ namespace EncryptPdf2Email
                 Outlook.Application app = new Outlook.Application();
                 Outlook.MailItem mailItem = app.CreateItem(Outlook.OlItemType.olMailItem);
                 mailItem.Recipients.Add(Recipients);
-
-                foreach (string item in Attachment)
+                if (SingleAttachment == "")
                 {
-                    mailItem.Attachments.Add(item);
+                    foreach (string item in Attachment)
+                    {
+                        mailItem.Attachments.Add(item);
+                    }
+                } else
+                {
+                    mailItem.Attachments.Add(SingleAttachment);
                 }
-
+                
                 mailItem.Subject = Subject;
                 mailItem.Body = Body;
                 mailItem.Send();
