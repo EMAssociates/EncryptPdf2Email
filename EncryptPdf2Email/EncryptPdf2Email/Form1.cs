@@ -96,7 +96,7 @@ namespace EncryptPdf2Email
                     {
                         if (item.Site == site)
                         {
-                            FileData fd = new FileData(fullName, fileName, item.Email, site);
+                            FileData fd = new FileData(fullName, fullName, fileName, item.Email, site);
                             fileData.Add(fd);
                         }
                     }
@@ -211,7 +211,15 @@ namespace EncryptPdf2Email
             MainFormValues mfv = new MainFormValues(txt_existingPassword.Text, txt_password.Text, txt_targetFolder.Text, txt_outputFolderPath.Text);
 
             //TODO this will not work with grouping emails
-            progressBar1.Maximum = fileData.Count;
+            if (GroupBy)
+            {
+                int max = fileData.GroupBy(o => o.Site).Count();
+                progressBar1.Maximum = max;
+            } else
+            {
+                progressBar1.Maximum = fileData.Count;
+            }
+            
             progressBar1.Minimum = 0;
             progressBar1.Step = 1;
             progressBar1.Value = 0;
@@ -272,6 +280,7 @@ namespace EncryptPdf2Email
                         //TODO indicate something went wrong.
                     }
 
+                    backgroundWorker1.ReportProgress(0);
                 }
             }
             //TODO this is where Decrpyt only code would go.  Possilby an HR need at some point.
@@ -322,6 +331,14 @@ namespace EncryptPdf2Email
                         {
                             et.SendEmailExchange();
                         }
+                    }
+                }
+
+                if (!SaveCopy)
+                {
+                    foreach (FileData item in fileData)
+                    {
+                        File.Delete(item.FinalLocationForEmail);
                     }
                 }
             }

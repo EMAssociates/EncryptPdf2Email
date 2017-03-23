@@ -18,9 +18,10 @@ namespace EncryptPdf2Email
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public FileData (string fullFileName, string fileName, string email, string site)
+        public FileData (string fullFileName, string finalLocation, string fileName, string email, string site)
         {
             _fullfileName = fullFileName;
+            _finalLocationforEmail = finalLocation;
             _fileName = fileName;
             _email = email;
             _site = site;
