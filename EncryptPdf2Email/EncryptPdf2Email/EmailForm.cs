@@ -23,7 +23,14 @@ namespace EncryptPdf2Email
             
             EmailTools.Body = rtxt_BodyEmail.Text;
 
+            EmailTools.CC = txt_CC.Text;
+
             this.Close();
+        }
+
+        private void EmailForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

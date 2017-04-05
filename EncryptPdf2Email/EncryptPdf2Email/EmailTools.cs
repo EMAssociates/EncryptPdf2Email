@@ -10,21 +10,25 @@ namespace EncryptPdf2Email
     class EmailTools
     {
         public string Recipients { get; set; }
+        public static string CC { get; set; }
         public List<string> Attachment { get; set; }
         public string SingleAttachment { get; set; }
         public static string Subject { get; set; }
         public static string Body { get; set; }
+        public string Site { get; set; }
 
-        public EmailTools(string recipients, List<string> attachment)
+        public EmailTools(string recipients, string site, List<string> attachment)
         {
             Recipients = recipients;
             Attachment = attachment;
+            Site = site;
         }
 
-        public EmailTools(string recipients, string attachment)
+        public EmailTools(string recipients, string site, string attachment)
         {
             Recipients = recipients;
-            SingleAttachment = attachment;           
+            SingleAttachment = attachment;
+            Site = site;        
         }
 
         //TODO catch should indicate back to UI that email failed
@@ -35,7 +39,7 @@ namespace EncryptPdf2Email
                 Outlook.Application app = new Outlook.Application();
                 Outlook.MailItem mailItem = app.CreateItem(Outlook.OlItemType.olMailItem);
                 mailItem.Recipients.Add(Recipients);
-                if (SingleAttachment == "")
+                if (SingleAttachment == null)
                 {
                     foreach (string item in Attachment)
                     {
@@ -45,10 +49,16 @@ namespace EncryptPdf2Email
                 {
                     mailItem.Attachments.Add(SingleAttachment);
                 }
-                
-                mailItem.Subject = Subject;
+
+                int start = Subject.IndexOf("{");
+                int end = Subject.IndexOf("}");
+                string result = Subject.Remove(start, end - start + 1);
+
+                mailItem.Subject = result.Insert(start, Site);
+                mailItem.CC = CC;
                 mailItem.Body = Body;
                 mailItem.Send();
+
             }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message + "\r\n\r\n" + ex.StackTrace, "Error Sending Email", MessageBoxButtons.OK, MessageBoxIcon.Error);

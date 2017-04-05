@@ -33,30 +33,33 @@
             this.lbl_Body = new System.Windows.Forms.Label();
             this.lbl_Subject = new System.Windows.Forms.Label();
             this.btn_EmailFormFinished = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txt_CC = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // rtxt_BodyEmail
             // 
             this.rtxt_BodyEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtxt_BodyEmail.Location = new System.Drawing.Point(12, 96);
+            this.rtxt_BodyEmail.Location = new System.Drawing.Point(12, 283);
             this.rtxt_BodyEmail.Name = "rtxt_BodyEmail";
-            this.rtxt_BodyEmail.Size = new System.Drawing.Size(577, 96);
+            this.rtxt_BodyEmail.Size = new System.Drawing.Size(577, 77);
             this.rtxt_BodyEmail.TabIndex = 1;
             this.rtxt_BodyEmail.Text = "";
             // 
             // txt_SubjectEmail
             // 
             this.txt_SubjectEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_SubjectEmail.Location = new System.Drawing.Point(13, 37);
+            this.txt_SubjectEmail.Location = new System.Drawing.Point(13, 170);
+            this.txt_SubjectEmail.Multiline = true;
             this.txt_SubjectEmail.Name = "txt_SubjectEmail";
-            this.txt_SubjectEmail.Size = new System.Drawing.Size(576, 26);
+            this.txt_SubjectEmail.Size = new System.Drawing.Size(576, 77);
             this.txt_SubjectEmail.TabIndex = 0;
             // 
             // lbl_Body
             // 
             this.lbl_Body.AutoSize = true;
             this.lbl_Body.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Body.Location = new System.Drawing.Point(13, 75);
+            this.lbl_Body.Location = new System.Drawing.Point(13, 262);
             this.lbl_Body.Name = "lbl_Body";
             this.lbl_Body.Size = new System.Drawing.Size(46, 18);
             this.lbl_Body.TabIndex = 2;
@@ -66,7 +69,7 @@
             // 
             this.lbl_Subject.AutoSize = true;
             this.lbl_Subject.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Subject.Location = new System.Drawing.Point(13, 16);
+            this.lbl_Subject.Location = new System.Drawing.Point(13, 148);
             this.lbl_Subject.Name = "lbl_Subject";
             this.lbl_Subject.Size = new System.Drawing.Size(61, 18);
             this.lbl_Subject.TabIndex = 3;
@@ -75,20 +78,41 @@
             // btn_EmailFormFinished
             // 
             this.btn_EmailFormFinished.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_EmailFormFinished.Location = new System.Drawing.Point(514, 6);
+            this.btn_EmailFormFinished.Location = new System.Drawing.Point(514, 366);
             this.btn_EmailFormFinished.Name = "btn_EmailFormFinished";
-            this.btn_EmailFormFinished.Size = new System.Drawing.Size(75, 23);
+            this.btn_EmailFormFinished.Size = new System.Drawing.Size(75, 35);
             this.btn_EmailFormFinished.TabIndex = 2;
             this.btn_EmailFormFinished.Text = "Finish";
             this.btn_EmailFormFinished.UseVisualStyleBackColor = true;
             this.btn_EmailFormFinished.Click += new System.EventHandler(this.btn_EmailFormFinished_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(13, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 18);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "CC:";
+            // 
+            // txt_CC
+            // 
+            this.txt_CC.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_CC.Location = new System.Drawing.Point(13, 56);
+            this.txt_CC.Multiline = true;
+            this.txt_CC.Name = "txt_CC";
+            this.txt_CC.Size = new System.Drawing.Size(576, 77);
+            this.txt_CC.TabIndex = 6;
             // 
             // EmailForm
             // 
             this.AcceptButton = this.btn_EmailFormFinished;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 204);
+            this.ClientSize = new System.Drawing.Size(601, 407);
+            this.Controls.Add(this.txt_CC);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_EmailFormFinished);
             this.Controls.Add(this.lbl_Subject);
             this.Controls.Add(this.lbl_Body);
@@ -96,6 +120,7 @@
             this.Controls.Add(this.rtxt_BodyEmail);
             this.Name = "EmailForm";
             this.Text = "Email Form";
+            this.Load += new System.EventHandler(this.EmailForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -108,5 +133,7 @@
         private System.Windows.Forms.Label lbl_Body;
         private System.Windows.Forms.Label lbl_Subject;
         private System.Windows.Forms.Button btn_EmailFormFinished;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txt_CC;
     }
 }

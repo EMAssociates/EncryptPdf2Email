@@ -27,6 +27,7 @@ namespace EncryptPdf2Email
 
         //system values
         public static string tempFolder;
+        public static int charPosition = 0;
 
         public MainForm()
         {
@@ -88,7 +89,7 @@ namespace EncryptPdf2Email
                 {
                     FileInfo fi = new FileInfo(file);
 
-                    site = fi.Name.Substring(0, 3);
+                    site = fi.Name.Substring(charPosition, 3);
                     fullName = fi.FullName;
                     fileName = fi.Name;
 
@@ -305,7 +306,7 @@ namespace EncryptPdf2Email
 
                         if (attachments.Count > 0)
                         {
-                            EmailTools et = new EmailTools(dd.Email, attachments);
+                            EmailTools et = new EmailTools(dd.Email, dd.Site, attachments);
 
                             if (Outlook)
                             {
@@ -322,7 +323,7 @@ namespace EncryptPdf2Email
                 {
                     foreach (FileData fd in fileData)
                     {
-                        EmailTools et = new EmailTools(fd.Email, fd.FinalLocationForEmail);
+                        EmailTools et = new EmailTools(fd.Email, fd.Site, fd.FinalLocationForEmail);
 
                         if (Outlook)
                         {
@@ -396,6 +397,15 @@ namespace EncryptPdf2Email
                 int lngth = fd.FileName.Length;
                 fd.NewFileName = fd.FileName.Substring(0, lngth - 14) + @".pdf";
             }
+        }
+
+        private void txt_charPosition_TextChanged(object sender, EventArgs e)
+        {
+            if (!Int32.TryParse(txt_charPosition.Text, out charPosition))
+            {
+                charPosition = 0;
+            }            
+            
         }
     }
 }
